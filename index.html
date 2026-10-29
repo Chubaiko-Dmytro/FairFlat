@@ -37,7 +37,10 @@
     <nav class="header-nav" aria-label="Головна навігація">
       <ul class="header-nav__list" role="list">
         <li>
-          <a href="#listings" class="header-nav__link is-active">Оголошення</a>
+          <a href="index.html" class="header-nav__link">Головна</a>
+        </li>
+        <li>
+          <a href="listings.html" class="header-nav__link">Оголошення</a>
         </li>
         <li>
           <a href="#map-search" class="header-nav__link">Пошук на карті</a>
@@ -545,12 +548,14 @@
       <div class="listings-grid" role="list" aria-label="Картки оголошень">
 
         <!-- ── Card 1: Оцінено AI (Оболонь) ───────────────── -->
-        <article class="property-card" role="listitem" aria-label="Квартира на Оболоні">
+        <article class="property-card" role="listitem" aria-label="2-кімнатна квартира на Оболоні">
 
           <div class="property-card__image property-card__image--1" aria-hidden="true">
-            <div class="property-card__image-bg">🏠</div>
+            <a href="listings.html?id=1" class="property-card__image-link" tabindex="-1" aria-hidden="true">
+              <div class="property-card__image-bg">🏠</div>
+            </a>
             <span class="property-card__badge property-card__badge--ai">
-              ✅ Оцінено AI · Чесна ціна
+              ✅ ОЦІНЕНО AI · ЧЕСНА ЦІНА
             </span>
             <button class="property-card__fav"
                     data-fav-btn
@@ -563,7 +568,9 @@
 
           <div class="property-card__body">
             <p class="property-card__type">Купівля · Квартира</p>
-            <h3 class="property-card__title">2-кімнатна квартира на Оболоні</h3>
+            <h3 class="property-card__title">
+              <a href="listings.html?id=1" class="property-card__title-link">2-кімнатна квартира на Оболоні</a>
+            </h3>
             <p class="property-card__location">
               <span aria-hidden="true">📍</span> вул. Маршала Тимошенка, 21, Оболонський р-н
             </p>
@@ -578,7 +585,7 @@
                  aria-label="Ціну підтверджено моделлю LightGBM">
               <span class="property-card__verification-icon" aria-hidden="true">🤖</span>
               <span class="property-card__verification-text">
-                Ціну затверджено моделлю LightGBM на основі повного CSV-паспорта об'єкта
+                Ціну затверджено моделлю LightGBM при публікації
               </span>
             </div>
 
@@ -588,33 +595,42 @@
                 <span>48 м²</span>
               </li>
               <li class="property-card__feature">
-                <span class="property-card__feature-icon" aria-hidden="true">🏢</span>
-                <span>3 / 9 пов.</span>
-              </li>
-              <li class="property-card__feature">
                 <span class="property-card__feature-icon" aria-hidden="true">🛏</span>
                 <span>2 кімнати</span>
               </li>
               <li class="property-card__feature">
+                <span class="property-card__feature-icon" aria-hidden="true">🏢</span>
+                <span>3 / 9 пов.</span>
+              </li>
+              <li class="property-card__feature">
+                <span class="property-card__feature-icon" aria-hidden="true">🏗</span>
+                <span>2014 р.</span>
+              </li>
+              <li class="property-card__feature">
                 <span class="property-card__feature-icon" aria-hidden="true">🅿️</span>
-                <span>Паркінг</span>
+                <span>Є паркінг</span>
+              </li>
+              <li class="property-card__feature">
+                <span class="property-card__feature-icon" aria-hidden="true">✨</span>
+                <span>Євроремонт</span>
               </li>
             </ul>
 
             <div class="property-card__footer">
-              <a href="/listing/1" class="btn btn--primary btn--sm">Детальніше</a>
-              <button class="btn btn--ghost btn--sm" type="button">📋 Паспорт CSV</button>
+              <a href="listings.html?id=1" class="btn btn--primary btn--full">Детальніше про об'єкт →</a>
             </div>
           </div>
         </article>
 
-        <!-- ── Card 2: Оцінено AI (Поділ, студія) ─────────── -->
-        <article class="property-card" role="listitem" aria-label="Студія на Подолі">
+        <!-- ── Card 2: Оцінено AI (Голосіїв, Дуплекс) ─────────── -->
+        <article class="property-card" role="listitem" aria-label="Сучасний дуплекс у Голосієві">
 
           <div class="property-card__image property-card__image--2" aria-hidden="true">
-            <div class="property-card__image-bg">🏙</div>
+            <a href="listings.html?id=2" class="property-card__image-link" tabindex="-1" aria-hidden="true">
+              <div class="property-card__image-bg">🏡</div>
+            </a>
             <span class="property-card__badge property-card__badge--ai">
-              ✅ Оцінено AI · Чесна ціна
+              ✅ ОЦІНЕНО AI · ЧЕСНА ЦІНА
             </span>
             <button class="property-card__fav"
                     data-fav-btn
@@ -626,15 +642,17 @@
           </div>
 
           <div class="property-card__body">
-            <p class="property-card__type">Оренда · Студія</p>
-            <h3 class="property-card__title">Простора студія з видом на Дніпро</h3>
+            <p class="property-card__type">Купівля · Таунхаус / Будинок</p>
+            <h3 class="property-card__title">
+              <a href="listings.html?id=2" class="property-card__title-link">Сучасний дуплекс у Голосієві</a>
+            </h3>
             <p class="property-card__location">
-              <span aria-hidden="true">📍</span> вул. Сагайдачного, 14, Подільський р-н
+              <span aria-hidden="true">📍</span> вул. Васильківська, 45, Голосіївський р-н
             </p>
 
             <div class="property-card__price-row">
-              <span class="property-card__price">$650 / міс</span>
-              <span class="property-card__price-per-sqm">$18,5/м²</span>
+              <span class="property-card__price">$145 000</span>
+              <span class="property-card__price-per-sqm">$1 318/м²</span>
             </div>
 
             <!-- Плашка верифікації AI -->
@@ -642,32 +660,39 @@
                  aria-label="Ціну підтверджено моделлю LightGBM">
               <span class="property-card__verification-icon" aria-hidden="true">🤖</span>
               <span class="property-card__verification-text">
-                Ціну затверджено моделлю LightGBM на основі повного CSV-паспорта об'єкта
+                Ціну затверджено моделлю LightGBM при публікації
               </span>
             </div>
 
             <ul class="property-card__features" aria-label="Характеристики">
               <li class="property-card__feature">
                 <span class="property-card__feature-icon" aria-hidden="true">📐</span>
-                <span>35 м²</span>
-              </li>
-              <li class="property-card__feature">
-                <span class="property-card__feature-icon" aria-hidden="true">🏢</span>
-                <span>7 / 12 пов.</span>
+                <span>110 м²</span>
               </li>
               <li class="property-card__feature">
                 <span class="property-card__feature-icon" aria-hidden="true">🛏</span>
-                <span>Студія</span>
+                <span>4 кімнати</span>
               </li>
               <li class="property-card__feature">
-                <span class="property-card__feature-icon" aria-hidden="true">🌅</span>
-                <span>Вид на річку</span>
+                <span class="property-card__feature-icon" aria-hidden="true">🏢</span>
+                <span>2 / 2 пов.</span>
+              </li>
+              <li class="property-card__feature">
+                <span class="property-card__feature-icon" aria-hidden="true">🏗</span>
+                <span>2019 р.</span>
+              </li>
+              <li class="property-card__feature">
+                <span class="property-card__feature-icon" aria-hidden="true">🅿️</span>
+                <span>Є паркінг</span>
+              </li>
+              <li class="property-card__feature">
+                <span class="property-card__feature-icon" aria-hidden="true">✨</span>
+                <span>Дизайнерський</span>
               </li>
             </ul>
 
             <div class="property-card__footer">
-              <a href="/listing/2" class="btn btn--primary btn--sm">Детальніше</a>
-              <button class="btn btn--ghost btn--sm" type="button">📋 Паспорт CSV</button>
+              <a href="listings.html?id=2" class="btn btn--primary btn--full">Детальніше про об'єкт →</a>
             </div>
           </div>
         </article>
@@ -676,9 +701,11 @@
         <article class="property-card" role="listitem" aria-label="Квартира на Печерську">
 
           <div class="property-card__image property-card__image--3" aria-hidden="true">
-            <div class="property-card__image-bg">🏛</div>
+            <a href="listings.html?id=3" class="property-card__image-link" tabindex="-1" aria-hidden="true">
+              <div class="property-card__image-bg">🏛</div>
+            </a>
             <span class="property-card__badge property-card__badge--base">
-              ⚪ Авторська ціна
+              ⚪ АВТОРСЬКА ЦІНА
             </span>
             <button class="property-card__fav"
                     data-fav-btn
@@ -691,14 +718,16 @@
 
           <div class="property-card__body">
             <p class="property-card__type">Купівля · Квартира</p>
-            <h3 class="property-card__title">3-кімнатна квартира в центрі Печерська</h3>
+            <h3 class="property-card__title">
+              <a href="listings.html?id=3" class="property-card__title-link">Видова 3-кімнатна квартира на Печерську</a>
+            </h3>
             <p class="property-card__location">
-              <span aria-hidden="true">📍</span> вул. Лютеранська, 30, Печерський р-н
+              <span aria-hidden="true">📍</span> бул. Лесі Українки, 7Б, Печерський р-н
             </p>
 
             <div class="property-card__price-row">
               <span class="property-card__price">$310 000</span>
-              <span class="property-card__price-per-sqm">$4 300/м²</span>
+              <span class="property-card__price-per-sqm">$4 305/м²</span>
             </div>
 
             <!-- Нейтральний підпис базового оголошення -->
@@ -716,22 +745,29 @@
                 <span>72 м²</span>
               </li>
               <li class="property-card__feature">
-                <span class="property-card__feature-icon" aria-hidden="true">🏢</span>
-                <span>5 / 7 пов.</span>
-              </li>
-              <li class="property-card__feature">
                 <span class="property-card__feature-icon" aria-hidden="true">🛏</span>
                 <span>3 кімнати</span>
               </li>
               <li class="property-card__feature">
-                <span class="property-card__feature-icon" aria-hidden="true">🏛</span>
-                <span>Цегла</span>
+                <span class="property-card__feature-icon" aria-hidden="true">🏢</span>
+                <span>5 / 7 пов.</span>
+              </li>
+              <li class="property-card__feature">
+                <span class="property-card__feature-icon" aria-hidden="true">🏗</span>
+                <span>2016 р.</span>
+              </li>
+              <li class="property-card__feature">
+                <span class="property-card__feature-icon" aria-hidden="true">🅿️</span>
+                <span>Без паркінгу</span>
+              </li>
+              <li class="property-card__feature">
+                <span class="property-card__feature-icon" aria-hidden="true">✨</span>
+                <span>Дизайнерський</span>
               </li>
             </ul>
 
             <div class="property-card__footer">
-              <a href="/listing/3" class="btn btn--primary btn--sm">Детальніше</a>
-              <button class="btn btn--ghost btn--sm" type="button">⚡ Перевірити CSV</button>
+              <a href="listings.html?id=3" class="btn btn--primary btn--full">Детальніше про об'єкт →</a>
             </div>
           </div>
         </article>
@@ -739,7 +775,7 @@
       </div><!-- /listings-grid -->
 
       <div class="text-center" style="margin-top: var(--space-10);">
-        <a href="/listings" class="btn btn--outline btn--lg">
+        <a href="listings.html" class="btn btn--outline btn--lg">
           Переглянути всі оголошення →
         </a>
       </div>

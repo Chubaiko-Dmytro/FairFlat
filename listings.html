@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FairFlat — каталог та детальний перегляд оголошень нерухомості Києва з ML-оцінкою реальної вартості LightGBM." />
+  <meta name="keywords" content="оголошення, нерухомість Київ, купити квартиру, оренда, ML оцінка, LightGBM, FairFlat" />
+  <meta property="og:title"       content="FairFlat — Оголошення нерухомості" />
+  <meta property="og:description" content="Каталог об'єктів з перевіреною ринковою ціною за алгоритмом LightGBM." />
+  <meta property="og:type"        content="website" />
+
+  <title>FairFlat — Оголошення нерухомості</title>
+
+  <!-- Стилі: variables спочатку, далі layout та listings.css -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/listings.css" />
+</head>
+<body>
+
+<!-- ============================================================
+     HEADER — повністю статичний HTML, без JS-рендерингу
+     Активний пункт "Оголошення" (клас is-active)
+     ============================================================ -->
+<header class="site-header" role="banner">
+  <div class="container">
+
+    <!-- Логотип -->
+    <a href="index.html" class="header-logo" aria-label="FairFlat — головна сторінка">
+      <span class="header-logo__icon" aria-hidden="true">🏠</span>
+      <span class="header-logo__text">
+        <span>Fair</span><span>Flat</span>
+      </span>
+    </a>
+
+    <!-- Основне навігаційне меню -->
+    <nav class="header-nav" aria-label="Головна навігація">
+      <ul class="header-nav__list" role="list">
+        <li>
+          <a href="index.html" class="header-nav__link">Головна</a>
+        </li>
+        <li>
+          <a href="listings.html" class="header-nav__link is-active" aria-current="page">Оголошення</a>
+        </li>
+        <li>
+          <a href="index.html#map-search" class="header-nav__link">Пошук на карті</a>
+        </li>
+        <li>
+          <a href="index.html#ml-section" class="header-nav__link">ML-оцінка вартості</a>
+        </li>
+        <li>
+          <a href="index.html#agents" class="header-nav__link">Рієлтори</a>
+        </li>
+        <li>
+          <a href="index.html#calculator" class="header-nav__link">Калькулятор іпотеки</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Дії у шапці -->
+    <div class="header-actions">
+      <a href="listings.html" class="header-actions__favorites" aria-label="Обране">
+        <span class="icon" aria-hidden="true">🤍</span>
+        <span class="fav-label">Обране</span>
+      </a>
+
+      <button class="btn-login" type="button" aria-label="Увійти до акаунту">
+        Увійти
+      </button>
+
+      <a href="index.html#ml-section" class="btn-post" aria-label="Подати оголошення">
+        <span aria-hidden="true">+</span>
+        <span class="post-label">Подати оголошення</span>
+      </a>
+    </div>
+
+  </div>
+</header>
+<!-- /HEADER -->
+
+
+<!-- ============================================================
+     MAIN CONTENT
+     ============================================================ -->
+<main id="main-content" class="listings-page">
+
+  <!-- ══════════════════════════════════════════════════════════
+       ВЕРХНЯ ПАНЕЛЬ: ВИБІР ОГОЛОШЕННЯ (4 ВІЗУАЛЬНІ ПРИКЛАДИ З БД)
+       ══════════════════════════════════════════════════════════ -->
+  <section class="examples-bar" aria-labelledby="examples-title">
+    <div class="container">
+      <div class="examples-bar__header">
+        <div class="examples-bar__heading">
+          <span class="examples-bar__icon" aria-hidden="true">👁</span>
+          <div>
+            <h2 class="examples-bar__title" id="examples-title">
+              Режим перегляду бази даних: Візуальні приклади об'єктів
+            </h2>
+            <p class="examples-bar__subtitle">
+              Оберіть приклад для миттєвого завантаження даних у детальний каркас (підтримує URL: <code>?id=1..4</code>)
+            </p>
+          </div>
+        </div>
+        <div class="examples-bar__ml-note">
+          <span class="ml-note-pill">
+            <span class="ml-note-dot" aria-hidden="true"></span>
+            LightGBM: оцінка виключно для КУПІВЛІ (SalePrice)
+          </span>
+        </div>
+      </div>
+
+      <!-- 4 міні-картки / таби -->
+      <div class="examples-tabs" role="tablist" aria-label="Вибір прикладу оголошення" data-examples-tabs>
+
+        <!-- Приклад 1 -->
+        <button type="button"
+                role="tab"
+                class="example-tab is-active"
+                id="tab-listing-1"
+                aria-selected="true"
+                aria-controls="listing-view"
+                data-listing-id="1">
+          <div class="example-tab__top">
+            <span class="example-tab__id">#1 · КУПІВЛЯ</span>
+            <span class="example-tab__badge example-tab__badge--ai">✅ Оцінено AI</span>
+          </div>
+          <strong class="example-tab__title">2-кімнатна на Оболоні</strong>
+          <div class="example-tab__price">$72 000 <small>($1 500/м²)</small></div>
+          <div class="example-tab__meta">Квартира · 48 м² · Оболонський</div>
+        </button>
+
+        <!-- Приклад 2 -->
+        <button type="button"
+                role="tab"
+                class="example-tab"
+                id="tab-listing-2"
+                aria-selected="false"
+                aria-controls="listing-view"
+                data-listing-id="2">
+          <div class="example-tab__top">
+            <span class="example-tab__id">#2 · КУПІВЛЯ</span>
+            <span class="example-tab__badge example-tab__badge--ai">✅ Оцінено AI</span>
+          </div>
+          <strong class="example-tab__title">Дуплекс у Голосієві</strong>
+          <div class="example-tab__price">$145 000 <small>($1 318/м²)</small></div>
+          <div class="example-tab__meta">Будинок · 110 м² · Голосіївський</div>
+        </button>
+
+        <!-- Приклад 3 -->
+        <button type="button"
+                role="tab"
+                class="example-tab"
+                id="tab-listing-3"
+                aria-selected="false"
+                aria-controls="listing-view"
+                data-listing-id="3">
+          <div class="example-tab__top">
+            <span class="example-tab__id">#3 · КУПІВЛЯ</span>
+            <span class="example-tab__badge example-tab__badge--base">⚪ Авторська</span>
+          </div>
+          <strong class="example-tab__title">3-кімнатна на Печерську</strong>
+          <div class="example-tab__price">$310 000 <small>($4 305/м²)</small></div>
+          <div class="example-tab__meta">Квартира · 72 м² · Печерський</div>
+        </button>
+
+        <!-- Приклад 4 -->
+        <button type="button"
+                role="tab"
+                class="example-tab"
+                id="tab-listing-4"
+                aria-selected="false"
+                aria-controls="listing-view"
+                data-listing-id="4">
+          <div class="example-tab__top">
+            <span class="example-tab__id">#4 · ОРЕНДА</span>
+            <span class="example-tab__badge example-tab__badge--base">⚪ Авторська</span>
+          </div>
+          <strong class="example-tab__title">Студія на Подолі</strong>
+          <div class="example-tab__price">$650 <small>/ міс</small></div>
+          <div class="example-tab__meta">Квартира · 35 м² · Подільський</div>
+        </button>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ХЛІБНІ КРИХТИ (BREADCRUMBS)
+       ══════════════════════════════════════════════════════════ -->
+  <nav class="breadcrumbs" aria-label="Хлібні крихти">
+    <div class="container">
+      <ol class="breadcrumbs__list">
+        <li><a href="index.html">Головна</a></li>
+        <li><a href="listings.html">Каталог</a></li>
+        <li><span data-db-field="deal_type" data-breadcrumb-deal>Купівля</span></li>
+        <li><span data-db-field="property_type" data-breadcrumb-type>Квартира</span></li>
+        <li aria-current="page">
+          <span data-db-field="listing_id" data-breadcrumb-id>ID #1</span>
+        </li>
+      </ol>
+    </div>
+  </nav>
+
+
+  <!-- ══════════════════════════════════════════════════════════
+       ДЕТАЛЬНИЙ КАРКАС ОБРАНОГО ОГОЛОШЕННЯ
+       ══════════════════════════════════════════════════════════ -->
+  <div class="listing-view" id="listing-view" role="tabpanel" aria-labelledby="tab-listing-1">
+    <div class="container">
+      <div class="listing-layout">
+
+        <!-- ─────────────────────────────────────────────────────
+             ОСНОВНА КОЛОНКА (ЛІВОРУЧ)
+             ───────────────────────────────────────────────────── -->
+        <div class="listing-main">
+
+          <!-- 1. Шапка оголошення (бейджі + заголовок + адреса + дата) -->
+          <header class="listing-hero-header">
+            <div class="listing-hero-header__badges">
+              <span class="badge-deal" data-db-field="deal_type" data-view-deal>КУПІВЛЯ</span>
+              <span class="badge-type" data-db-field="property_type" data-view-type>КВАРТИРА</span>
+              <span class="badge-ml" data-db-field="is_ml_verified" data-view-ml-badge>
+                ✅ ОЦІНЕНО AI · ЧЕСНА ЦІНА
+              </span>
+            </div>
+
+            <h1 class="listing-hero-header__title" data-db-field="title" data-view-title>
+              2-кімнатна квартира на Оболоні
+            </h1>
+
+            <div class="listing-hero-header__meta">
+              <p class="listing-location">
+                <span aria-hidden="true">📍</span>
+                <span data-view-location>м. Київ, Оболонський р-н, вул. Маршала Тимошенка, 21</span>
+              </p>
+              <p class="listing-date">
+                <span aria-hidden="true">📅</span>
+                <span>Опубліковано: <strong data-db-field="created_at" data-view-created>18.10.2026</strong></span>
+              </p>
+            </div>
+          </header>
+
+          <!-- 2. Галерея фото (LISTING_PHOTO) -->
+          <section class="listing-gallery" aria-label="Галерея об'єкта">
+            <div class="listing-gallery__cover-wrap">
+              <div class="listing-gallery__cover" data-view-cover-bg aria-hidden="true">
+                <span class="gallery-icon" data-view-cover-icon>🏠</span>
+                <span class="gallery-label" data-view-cover-title>Головне фото об'єкта</span>
+              </div>
+              <div class="gallery-status-pill">
+                <span data-db-field="status" data-view-status>Статус: ACTIVE</span>
+              </div>
+            </div>
+
+            <!-- Мініатюри (sort_order: 1..3) -->
+            <div class="listing-gallery__thumbs" role="list" aria-label="Мініатюри фотографій" data-view-thumbs>
+              <!-- JS динамічно рендерить 3 мініатюри -->
+            </div>
+          </section>
+
+          <!-- 3. Сітка характеристик (СУВОРО 6 полів з таблиці LISTING) -->
+          <section class="listing-specs" aria-labelledby="specs-title">
+            <h2 class="section-block-title" id="specs-title">
+              <span aria-hidden="true">📋</span> Характеристики об'єкта (ER: LISTING)
+            </h2>
+
+            <div class="specs-grid">
+              <!-- 1. Площа -->
+              <div class="spec-card">
+                <span class="spec-card__icon" aria-hidden="true">📐</span>
+                <div class="spec-card__info">
+                  <span class="spec-card__label">Загальна площа (area_sqm)</span>
+                  <strong class="spec-card__value" data-db-field="area_sqm" data-view-area>48.0 м²</strong>
+                </div>
+              </div>
+
+              <!-- 2. Кімнати -->
+              <div class="spec-card">
+                <span class="spec-card__icon" aria-hidden="true">🛏</span>
+                <div class="spec-card__info">
+                  <span class="spec-card__label">Кількість кімнат (rooms)</span>
+                  <strong class="spec-card__value" data-db-field="rooms" data-view-rooms>2 кімнати</strong>
+                </div>
+              </div>
+
+              <!-- 3. Поверх -->
+              <div class="spec-card">
+                <span class="spec-card__icon" aria-hidden="true">🏢</span>
+                <div class="spec-card__info">
+                  <span class="spec-card__label">Поверх / Поверховість (floor / floors_total)</span>
+                  <strong class="spec-card__value" data-view-floors>3 з 9</strong>
+                </div>
+              </div>
+
+              <!-- 4. Рік побудови -->
+              <div class="spec-card">
+                <span class="spec-card__icon" aria-hidden="true">🏗</span>
+                <div class="spec-card__info">
+                  <span class="spec-card__label">Рік побудови (year_built)</span>
+                  <strong class="spec-card__value" data-db-field="year_built" data-view-year>2014 рік</strong>
+                </div>
+              </div>
+
+              <!-- 5. Паркінг -->
+              <div class="spec-card">
+                <span class="spec-card__icon" aria-hidden="true">🅿️</span>
+                <div class="spec-card__info">
+                  <span class="spec-card__label">Паркінг (has_parking)</span>
+                  <strong class="spec-card__value" data-db-field="has_parking" data-view-parking>Є паркінг</strong>
+                </div>
+              </div>
+
+              <!-- 6. Стан ремонту -->
+              <div class="spec-card">
+                <span class="spec-card__icon" aria-hidden="true">✨</span>
+                <div class="spec-card__info">
+                  <span class="spec-card__label">Стан ремонту (repair_state)</span>
+                  <strong class="spec-card__value" data-db-field="repair_state" data-view-repair>Євроремонт</strong>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 4. Блок інформації про ціну та AI-верифікацію -->
+          <section class="listing-ml-section" aria-labelledby="ml-report-title">
+            <h2 class="section-block-title" id="ml-report-title">
+              <span aria-hidden="true">🤖</span> Оцінка вартості та статус верифікації
+            </h2>
+
+            <div class="ml-status-box" data-view-ml-box>
+              <!-- JS рендерить смарагдовий або сірий блок -->
+            </div>
+          </section>
+
+          <!-- 5. Опис об'єкта (description) -->
+          <section class="listing-description-section" aria-labelledby="desc-title">
+            <h2 class="section-block-title" id="desc-title">
+              <span aria-hidden="true">📝</span> Опис об'єкта
+            </h2>
+            <div class="listing-description-text" data-db-field="description" data-view-description>
+              <!-- JS підставляє опис -->
+            </div>
+          </section>
+
+          <!-- 6. Контейнер карти Києва (latitude, longitude) -->
+          <section class="listing-map-section" aria-labelledby="map-title">
+            <div class="map-section-header">
+              <h2 class="section-block-title" id="map-title">
+                <span aria-hidden="true">🗺</span> Розташування на карті Києва
+              </h2>
+              <div class="map-coordinates" data-view-coords>
+                Координати: <span data-db-field="latitude" data-view-lat>50.5088</span>,
+                <span data-db-field="longitude" data-view-lng>30.4985</span>
+              </div>
+            </div>
+
+            <div class="map-container">
+              <div class="map-canvas">
+                <!-- Сітка стилізованої карти Києва -->
+                <div class="map-grid-bg"></div>
+                <div class="map-river-dnipro" aria-hidden="true">
+                  <span class="map-river-label">р. Дніпро</span>
+                </div>
+                <div class="map-marker" data-view-marker>
+                  <div class="map-marker__pin" aria-hidden="true">📍</div>
+                  <div class="map-marker__popup">
+                    <strong data-view-marker-title>2-кімнатна квартира</strong>
+                    <span data-view-marker-price>$72 000</span>
+                  </div>
+                </div>
+                <div class="map-district-badge" data-view-district-badge>
+                  Район: Оболонський
+                </div>
+              </div>
+            </div>
+          </section>
+
+        </div>
+        <!-- /listing-main -->
+
+
+        <!-- ─────────────────────────────────────────────────────
+             ПРАВИЙ САЙДБАР ВЗАЄМОДІЇ (STICKY)
+             ───────────────────────────────────────────────────── -->
+        <aside class="listing-sidebar" aria-label="Панель дій із оголошенням">
+          <div class="listing-sidebar__sticky">
+
+            <!-- Блок ціни -->
+            <div class="sidebar-card sidebar-card--price">
+              <div class="sidebar-price-header">
+                <span class="sidebar-price-label">Вартість об'єкта:</span>
+                <span class="sidebar-deal-tag" data-view-sidebar-deal>Продаж</span>
+              </div>
+              <div class="sidebar-price-amount" data-db-field="price" data-view-price>$72 000</div>
+              <div class="sidebar-price-sqm" data-view-price-sqm>$1 500 / м²</div>
+
+              <!-- Кнопка "В обране" (FAVORITE) -->
+              <button type="button"
+                      class="btn-favorite"
+                      data-fav-toggle
+                      aria-label="Додати в обране"
+                      aria-pressed="false">
+                <span class="fav-icon" data-fav-icon aria-hidden="true">🤍</span>
+                <span class="fav-text" data-fav-text>Додати в обране</span>
+              </button>
+            </div>
+
+            <!-- Картка продавця (USER: owner_id) -->
+            <div class="sidebar-card sidebar-card--seller">
+              <h3 class="sidebar-card__title">Контактна особа</h3>
+              <div class="seller-profile">
+                <div class="seller-profile__avatar" aria-hidden="true" data-view-seller-avatar>👤</div>
+                <div class="seller-profile__info">
+                  <strong class="seller-profile__name" data-db-field="full_name" data-view-seller-name>
+                    Олександр Мельник
+                  </strong>
+                  <div class="seller-profile__role" data-view-seller-role>
+                    <span class="role-badge">Власник</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Кнопка показу телефону -->
+              <div class="seller-phone-box">
+                <button type="button"
+                        class="btn btn--outline btn--full btn--phone"
+                        data-phone-toggle
+                        data-db-field="phone">
+                  <span aria-hidden="true">📞</span> Показати номер телефону
+                </button>
+                <div class="seller-phone-revealed" data-phone-revealed hidden>
+                  <a href="tel:+380671234567" class="phone-link" data-view-phone-link>+380 (67) 123-45-67</a>
+                  <span class="phone-hint">Дзвінки приймаються з 09:00 до 20:00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Форма запису на перегляд (VIEWING_REQUEST) -->
+            <div class="sidebar-card sidebar-card--viewing">
+              <h3 class="sidebar-card__title">
+                <span aria-hidden="true">📅</span> Записатися на перегляд
+              </h3>
+              <p class="sidebar-card__desc">
+                Створіть запит до власника у таблицю <code>VIEWING_REQUEST</code>
+              </p>
+
+              <form class="viewing-form" data-viewing-form novalidate>
+                <div class="form-group">
+                  <label for="preferred-date" class="form-label">
+                    Бажана дата огляду:
+                  </label>
+                  <input type="date"
+                         id="preferred-date"
+                         name="preferred_date"
+                         class="form-input"
+                         required
+                         data-db-field="preferred_date" />
+                </div>
+
+                <div class="form-group">
+                  <label for="viewing-message" class="form-label">
+                    Коментар або зручний час:
+                  </label>
+                  <textarea id="viewing-message"
+                            name="message"
+                            rows="3"
+                            class="form-textarea"
+                            placeholder="Наприклад: Зручно після 18:00, буду з рієлтором..."
+                            data-db-field="message"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn--primary btn--full btn--submit-viewing">
+                  Надіслати заявку на огляд
+                </button>
+
+                <div class="viewing-result-msg" data-viewing-result hidden role="status"></div>
+              </form>
+            </div>
+
+          </div>
+        </aside>
+        <!-- /listing-sidebar -->
+
+      </div><!-- /listing-layout -->
+    </div><!-- /container -->
+  </div><!-- /listing-view -->
+
+</main>
+
+
+<!-- ============================================================
+     FOOTER — повністю статичний HTML, без JS-рендерингу
+     ============================================================ -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+
+    <!-- 4 колонки посилань -->
+    <nav class="footer-grid" aria-label="Навігація футера">
+
+      <!-- Колонка 1: Про FairFlat -->
+      <div class="footer-col">
+        <div class="footer-col__logo" aria-hidden="true">
+          <span class="footer-col__logo-icon">🏠</span>
+          <span class="footer-col__logo-text">
+            <span>Fair</span><span>Flat</span>
+          </span>
+        </div>
+        <p class="footer-col__desc">
+          Платформа оренди та продажу нерухомості з ML-оцінкою реальної вартості. Чесна квартира — це не слоган, це стандарт.
+        </p>
+      </div>
+
+      <!-- Колонка 2: Розділи каталогу -->
+      <div class="footer-col">
+        <h3 class="footer-col__title">Розділи каталогу</h3>
+        <ul class="footer-col__links" role="list">
+          <li><a href="listings.html?id=1">Купити квартиру</a></li>
+          <li><a href="listings.html?id=4">Орендувати квартиру</a></li>
+          <li><a href="listings.html?id=2">Купити будинок / дуплекс</a></li>
+          <li><a href="listings.html">Всі оголошення</a></li>
+          <li><a href="index.html#map-search">Пошук на карті</a></li>
+        </ul>
+      </div>
+
+      <!-- Колонка 3: Інструменти -->
+      <div class="footer-col">
+        <h3 class="footer-col__title">Інструменти</h3>
+        <ul class="footer-col__links" role="list">
+          <li><a href="index.html#ml-section">ML-оцінка вартості (LightGBM)</a></li>
+          <li><a href="index.html#calculator">Калькулятор іпотеки</a></li>
+          <li><a href="index.html#agents">Рієлтори</a></li>
+          <li><a href="listings.html">Каталог оголошень</a></li>
+        </ul>
+      </div>
+
+      <!-- Колонка 4: Правила та підтримка -->
+      <div class="footer-col">
+        <h3 class="footer-col__title">Правила та підтримка</h3>
+        <ul class="footer-col__links" role="list">
+          <li><a href="index.html">Про FairFlat</a></li>
+          <li><a href="index.html#ml-section">Як працює алгоритм</a></li>
+          <li><a href="#">Умови використання</a></li>
+          <li><a href="#">Політика конфіденційності</a></li>
+        </ul>
+      </div>
+
+    </nav><!-- /footer-grid -->
+
+    <!-- Нижній рядок копірайту -->
+    <div class="footer-bottom">
+      <p class="footer-bottom__copy">
+        © 2026 <span>FairFlat</span> — Чесна квартира. Всі права захищені. ML-модель LightGBM v3.3.
+      </p>
+      <nav class="footer-bottom__links" aria-label="Юридичні посилання">
+        <a href="#">Умови</a>
+        <a href="#">Конфіденційність</a>
+        <a href="#">Cookies</a>
+      </nav>
+    </div>
+
+  </div><!-- /container -->
+</footer>
+<!-- /FOOTER -->
+
+<!-- JS-скрипт окремої сторінки оголошень -->
+<script src="js/listings.js"></script>
+</body>
+</html>
